@@ -10,8 +10,10 @@ class Player
         virtual ~Player();
         void control();
         void update();
+        sf::RectangleShape getRect() const;
     protected:
     private:
+        sf::RectangleShape rectangle;
         double x, y;
         Vector velocity;
         Vector acceleration;
