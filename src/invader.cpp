@@ -2,6 +2,11 @@
 
 Invader::Invader(double x, double y)
 {
+    rectangle.setSize(sf::Vector2f(10, 10));
+    rectangle.setFillColor(sf::Color::White);
+    //rectangle.setOutlineThickness(5);
+    rectangle.setOrigin(rectangle.getSize().x/2.0,rectangle.getSize().y/2.0);
+    rectangle.setPosition(x, y);
     this->x = x;
     this->y = y;
 
@@ -15,12 +20,14 @@ void Invader::update()
 {
     x += velocity.getXComponent();
     y += velocity.getYComponent();
+    rectangle.setPosition(this->x,this->y);
 }
 
 void Invader::translate(double x, double y)
 {
     this->x+=x;
     this->y+=y;
+    rectangle.setPosition(this->x,this->y);
 }
 
 double Invader::getX() const
@@ -36,6 +43,11 @@ double Invader::getY() const
 Vector Invader::getVelocity() const
 {
     return velocity;
+}
+
+sf::RectangleShape Invader::getRect() const
+{
+    return rectangle;
 }
 
 Vector Invader::setVelocity(Vector velocity)
