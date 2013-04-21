@@ -11,6 +11,7 @@ Player::Player()
 
 void Player::control()
 {
+    acceleration = Vector();
     //Go left!
     //Creates an acceleration vector pointing to the left (Theta = 180)
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
@@ -44,7 +45,7 @@ void Player::update()
     velocity_y            += accel_y;
 
     long double newMag     = sqrt(pow(velocity_x,2) + pow(velocity_y,2));
-    long double newTheta   = atan2(velocity_y,velocity_x);
+    long double newTheta   = atan2(velocity_y,velocity_x)*(180.0l/PI);
 
     velocity               = Vector(newMag,newTheta);
 
