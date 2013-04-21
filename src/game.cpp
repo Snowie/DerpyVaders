@@ -61,18 +61,24 @@ void Game::runEvents()
             }
         }
     }
-
-    player.control();
-    player.update();
-
-    invaderLogic();
 }
 
 void Game::loop()
 {
     while(App.isOpen())
     {
+        //Generic application stuff
         runEvents();
+
+        //Allow the player to query the state of controls
+        player.control();
+
+        //Update the player based on its current state
+        player.update();
+
+        //That cool formation logic you see
+        invaderLogic();
+
         App.clear();
         //App.draw();
         App.display();
