@@ -12,6 +12,36 @@ void Game::init()
     loop();
 }
 
+void Game::invaderLogic()
+{
+    bool update = false;
+
+
+    //Boundary checking
+    for(Invader x: invaders)
+    {
+        //If one is touching the border
+            //update = true;
+            //break;
+    }
+
+    if(update)
+    {
+        //Translation and velocity switching
+        for(Invader & x: invaders)
+        {
+            //x.translate(0,x.height);
+            //x.velocity = Vector(x.velocity.getMagnitude(), x.velocity.getTheta()+180);
+        }
+    }
+
+    //Finally move.
+    for(Invader & x: invaders)
+    {
+        //x.update();
+    }
+}
+
 void Game::runEvents()
 {
     sf::Event event;
@@ -34,6 +64,8 @@ void Game::runEvents()
 
     player.control();
     player.update();
+
+    invaderLogic();
 }
 
 void Game::loop()
