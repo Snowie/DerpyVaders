@@ -12,12 +12,12 @@ class Game
         Game();
         virtual ~Game();
         void init();
-        void initInvaders();
         void loop();
-        void runEvents();
     protected:
     private:
+        void initInvaders();
         void invaderLogic();
+        void runEvents();
         Player player;
         sf::RenderWindow App;
         std::vector<Invader> invaders;

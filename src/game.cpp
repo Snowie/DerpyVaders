@@ -16,7 +16,7 @@ void Game::initInvaders()
         for(unsigned int k = 0; k < 11; ++k)
         {
             //Constants are placeholders, will replace with variables representing height and width
-            invaders.push_back(Invader(k*5,j*5));
+            invaders.push_back(Invader(k*5*30,j*5*10));
         }
     }
 }
@@ -33,12 +33,12 @@ void Game::invaderLogic()
 
 
     //Boundary checking
-    for(Invader x: invaders)
+    for(Invader inv: invaders)
     {
-        //If one is touching the border
+        if(inv.getRect().getPosition().x + inv.getVelocity().getXComponent() > App.getSize().x || inv.getRect().getPosition().x + inv.getVelocity().getXComponent()< 0)
         {
-            //update = true;
-            //break;
+            update = true;
+            break;
         }
     }
 
@@ -47,7 +47,7 @@ void Game::invaderLogic()
         //Translation and velocity switching
         for(Invader & x: invaders)
         {
-            x.translate(0,1);
+            x.translate(0,50);
             x.setVelocity(Vector(x.getVelocity().getMagnitude(), x.getVelocity().getTheta()+180));
         }
     }
@@ -97,7 +97,14 @@ void Game::loop()
         invaderLogic();
 
         App.clear();
-        //App.draw();
+
+        for(Invader x: invaders)
+        {
+            App.draw(x.getRect());
+        }
+
+        App.draw(player.getRect());
+
         App.display();
     }
 }
