@@ -30,15 +30,15 @@ void Game::invaderLogic()
         //Translation and velocity switching
         for(Invader & x: invaders)
         {
-            //x.translate(0,x.height);
-            //x.velocity = Vector(x.velocity.getMagnitude(), x.velocity.getTheta()+180);
+            x.translate(0,1);
+            x.setVelocity(Vector(x.getVelocity().getMagnitude(), x.getVelocity().getTheta()+180));
         }
     }
 
     //Finally move.
     for(Invader & x: invaders)
     {
-        //x.update();
+        x.update();
     }
 }
 
