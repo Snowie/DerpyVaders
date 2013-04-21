@@ -12,6 +12,7 @@ class Game
         Game();
         virtual ~Game();
         void init();
+        void initInvaders();
         void loop();
         void runEvents();
     protected:

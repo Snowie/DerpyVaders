@@ -7,8 +7,23 @@ Game::Game()
     App.setVerticalSyncEnabled(true);
 }
 
+void Game::initInvaders()
+{
+    //Rows
+    for(unsigned int j = 0; j < 5; ++j)
+    {
+        //Columns
+        for(unsigned int k = 0; k < 11; ++k)
+        {
+            //Constants are placeholders, will replace with variables representing height and width
+            invaders.push_back(Invader(k*5,j*5));
+        }
+    }
+}
+
 void Game::init()
 {
+    initInvaders();
     loop();
 }
 
@@ -21,8 +36,10 @@ void Game::invaderLogic()
     for(Invader x: invaders)
     {
         //If one is touching the border
+        {
             //update = true;
             //break;
+        }
     }
 
     if(update)
