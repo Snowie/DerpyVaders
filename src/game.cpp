@@ -1,5 +1,5 @@
 #include "../include/game.h"
-
+#include <iostream>
 Game::Game()
 {
     //ctor
@@ -102,7 +102,47 @@ void Game::loop()
         {
             App.draw(x.getRect());
         }
+        unsigned int i = 0;
+        bool del = false;
+        if(player.getBullState())
+        {
+            for(Invader inv: invaders)
+            {
+                double invMaxX = inv.getRect().getPosition().x + inv.getRect().getSize().x/2.0;
+                double invMinX = inv.getRect().getPosition().x - inv.getRect().getSize().x/2.0;
+                double invMaxY = inv.getRect().getPosition().y + inv.getRect().getSize().y/2.0;
+                double invMinY = inv.getRect().getPosition().y - inv.getRect().getSize().y/2.0;
 
+                double maxX = player.getBull().getPosition().x + player.getBull().getSize().x/2.0;
+                double minX = player.getBull().getPosition().x - player.getBull().getSize().x/2.0;
+                double maxY = player.getBull().getPosition().y + player.getBull().getSize().y/2.0;
+                double minY = player.getBull().getPosition().y - player.getBull().getSize().y/2.0;
+
+                if ((maxX < invMinX ||
+                    maxY < invMinY ||
+                    minX > invMaxX ||
+                    minY > invMaxY))
+                    {
+                        ++i;
+                        continue;
+                    }
+                    else
+                    {
+                        del = true;
+                        break;
+                    }
+            }
+        }
+        if(del)
+        {
+            invaders.erase(invaders.begin()+i);
+            player.eraseBull();
+        }
+
+        if(player.getBullState())
+        {
+            App.draw(player.getBull());
+        }
         App.draw(player.getRect());
 
         App.display();

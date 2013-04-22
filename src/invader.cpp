@@ -2,7 +2,7 @@
 
 Invader::Invader(double x, double y)
 {
-    rectangle.setSize(sf::Vector2f(10, 10));
+    rectangle.setSize(sf::Vector2f(20, 10));
     rectangle.setFillColor(sf::Color::White);
     //rectangle.setOutlineThickness(5);
     rectangle.setOrigin(rectangle.getSize().x/2.0,rectangle.getSize().y/2.0);
