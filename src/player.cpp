@@ -3,10 +3,19 @@
 Player::Player()
 {
     rectangle.setSize(sf::Vector2f(20,20));
+    rectangle.setFillColor(sf::Color::Green);
     rectangle.setOrigin(rectangle.getSize().x/2.0, rectangle.getSize().y/2.0);
     x = 960;
     y = 900;
     rectangle.setPosition(x,y);
+
+    bullet.setSize(sf::Vector2f(10,10));
+    bullet.setFillColor(sf::Color::White);
+    bullet.setOrigin(bullet.getSize().x/2.0, bullet.getSize().y/2.0);
+    bull_x = x;
+    bull_y = y;
+    bullet.setPosition(bull_x, bull_y);
+    bulletState = false;
     //ctor
 }
 
@@ -31,13 +40,46 @@ void Player::control()
     //Space to shoot
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
-        //fire!
+        bulletState = true;
+        bulletVelocity=Vector(8.0l,270.0l);
     }
 }
 
 sf::RectangleShape Player::getRect() const
 {
     return rectangle;
+}
+
+sf::RectangleShape Player::getBull() const
+{
+    return bullet;
+}
+
+bool Player::getBullState() const
+{
+    return bulletState;
+}
+
+void Player::eraseBull()
+{
+    bull_x = x;
+    bull_y = y;
+    bullet.setPosition(bull_x, bull_y);
+    bulletState = false;
+}
+
+void Player::bulletLogic()
+{
+    if(bull_y > 0)
+    {
+        bull_x += bulletVelocity.getXComponent();
+        bull_y += bulletVelocity.getYComponent();
+        bullet.setPosition(bull_x, bull_y);
+    }
+    else
+    {
+        eraseBull();
+    }
 }
 
 void Player::update()
@@ -99,6 +141,15 @@ void Player::update()
 
     //Keep our shape up to date
     rectangle.setPosition(x,y);
+
+    if(bulletState)
+    {
+        bulletLogic();
+    }
+    else
+    {
+        eraseBull();
+    }
 }
 
 Player::~Player()
