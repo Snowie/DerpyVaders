@@ -2,6 +2,8 @@
 
 Player::Player()
 {
+
+    //Set up our player shape
     rectangle.setSize(sf::Vector2f(20,20));
     rectangle.setFillColor(sf::Color::Green);
     rectangle.setOrigin(rectangle.getSize().x/2.0, rectangle.getSize().y/2.0);
@@ -9,12 +11,15 @@ Player::Player()
     y = 900;
     rectangle.setPosition(x,y);
 
+
+    //The bullet should follow the player
     bullet.resetBull(rectangle.getPosition());
     //ctor
 }
 
 void Player::control()
 {
+    //If there is no input, our acceleration should be 0!
     acceleration = Vector();
 
     //Go left!
@@ -34,8 +39,10 @@ void Player::control()
     //Space to shoot
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
+        //If we don't currently have a bullet in the air...
         if(!bullet.getState())
         {
+            //Reset its position to our current position and fire it!
             bullet.resetBull(rectangle.getPosition());
             bullet.activate();
         }
@@ -49,9 +56,9 @@ sf::RectangleShape Player::getRect() const
 
 Bullet * Player::getBull()
 {
+    //Pass a pointer to player's bullet, useful for restting it from Game
     Bullet * pBull = &bullet;
     return (pBull);
-    //return bullet;
 }
 
 void Player::update()
@@ -114,15 +121,15 @@ void Player::update()
     //Keep our shape up to date
     rectangle.setPosition(x,y);
 
+    //If our bullet is in the air..
     if(bullet.getState())
     {
-        if(!bullet.bulletLogic())
-        {
-            bullet.resetBull(rectangle.getPosition());
-        }
+        //Run the logic!
+        bullet.bulletLogic();
     }
     else
     {
+        //Otherwise, keep it up to date in position
         bullet.resetBull(rectangle.getPosition());
     }
 }

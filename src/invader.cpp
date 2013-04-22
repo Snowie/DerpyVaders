@@ -4,7 +4,6 @@ Invader::Invader(double x, double y)
 {
     rectangle.setSize(sf::Vector2f(20, 10));
     rectangle.setFillColor(sf::Color::White);
-    //rectangle.setOutlineThickness(5);
     rectangle.setOrigin(rectangle.getSize().x/2.0,rectangle.getSize().y/2.0);
     rectangle.setPosition(x, y);
     this->x = x;
@@ -21,15 +20,15 @@ void Invader::update()
     x += velocity.getXComponent();
     y += velocity.getYComponent();
     rectangle.setPosition(this->x,this->y);
+    //If our bullet is in the air..
     if(bullet.getState())
     {
-        if(!bullet.bulletLogic())
-        {
-            bullet.resetBull(rectangle.getPosition());
-        }
+        //Run the logic!
+        bullet.bulletLogic();
     }
     else
     {
+        //Otherwise keep its position up to date!
         bullet.resetBull(rectangle.getPosition());
     }
 }
