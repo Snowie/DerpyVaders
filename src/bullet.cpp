@@ -30,22 +30,28 @@ void Bullet::setVelocity(Vector vel)
 
 void Bullet::resetBull(sf::Vector2f position)
 {
+    //Reset our state to not in the air!
     bull_x = position.x;
     bull_y = position.y;
     rectangle.setPosition(bull_x, bull_y);
     bulletState = false;
 }
 
-bool Bullet::bulletLogic()
+void Bullet::bulletLogic()
 {
+    //If we are in bounds...
     if(bull_y > 0 && bull_y < 1030)
     {
+        //Update our position
         bull_x += bulletVelocity.getXComponent();
         bull_y += bulletVelocity.getYComponent();
         rectangle.setPosition(bull_x, bull_y);
-        return true;
     }
-    return false;
+    else
+    {
+        //Otherwise, reset!
+        resetBull(sf::Vector2f(0.0,0.0));
+    }
 }
 Bullet::~Bullet()
 {

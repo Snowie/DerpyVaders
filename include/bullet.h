@@ -13,7 +13,7 @@ class Bullet
         void setVelocity(Vector);
         bool getState() const;
         void activate();
-        bool bulletLogic();
+        void bulletLogic();
     protected:
     private:
         sf::RectangleShape rectangle;
