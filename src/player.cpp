@@ -34,8 +34,11 @@ void Player::control()
     //Space to shoot
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
     {
-        bullet.resetBull(rectangle.getPosition());
-        bullet.activate();
+        if(!bullet.getState())
+        {
+            bullet.resetBull(rectangle.getPosition());
+            bullet.activate();
+        }
     }
 }
 
