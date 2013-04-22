@@ -10,6 +10,7 @@ class Bullet
         virtual ~Bullet();
         sf::RectangleShape getRect() const;
         void resetBull(sf::Vector2f);
+        void setVelocity(Vector);
         bool getState() const;
         void activate();
         bool bulletLogic();

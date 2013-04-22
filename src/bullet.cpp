@@ -23,6 +23,11 @@ bool Bullet::getState() const
     return bulletState;
 }
 
+void Bullet::setVelocity(Vector vel)
+{
+    bulletVelocity = vel;
+}
+
 void Bullet::resetBull(sf::Vector2f position)
 {
     bull_x = position.x;
@@ -33,7 +38,7 @@ void Bullet::resetBull(sf::Vector2f position)
 
 bool Bullet::bulletLogic()
 {
-    if(bull_y > 0)
+    if(bull_y > 0 && bull_y < 1030)
     {
         bull_x += bulletVelocity.getXComponent();
         bull_y += bulletVelocity.getYComponent();
