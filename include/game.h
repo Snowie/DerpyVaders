@@ -13,6 +13,7 @@ class Game
         virtual ~Game();
         void init();
         void loop();
+        bool checkColl(sf::RectangleShape, sf::RectangleShape) const;
     protected:
     private:
         void initInvaders();

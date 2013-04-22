@@ -1,4 +1,6 @@
 #include "../include/game.h"
+#include <time.h>
+#include <cstdlib>
 Game::Game()
 {
     //ctor
@@ -30,9 +32,9 @@ void Game::invaderLogic()
 {
     bool update = false;
 
-
+    srand(time(0));
     //Boundary checking
-    for(Invader inv: invaders)
+    for(Invader & inv: invaders)
     {
         if(inv.getRect().getPosition().x + inv.getVelocity().getXComponent() > App.getSize().x || inv.getRect().getPosition().x + inv.getVelocity().getXComponent()< 0)
         {
@@ -52,9 +54,15 @@ void Game::invaderLogic()
     }
 
     //Finally move.
-    for(Invader & x: invaders)
+    for(Invader & inv: invaders)
     {
-        x.update();
+        int someNum = rand() % 1000 + 1;
+        if(someNum > 100 && !inv.getBull()->getState())
+        {
+            inv.getBull()->activate();
+            inv.getBull()->setVelocity(Vector(8.0,90.0));
+        }
+        inv.update();
     }
 }
 
@@ -77,6 +85,32 @@ void Game::runEvents()
             }
         }
     }
+}
+
+bool Game::checkColl(sf::RectangleShape first, sf::RectangleShape second) const
+{
+    double firstMaxX = first.getPosition().x + first.getSize().x/2.0;
+    double firstMinX = first.getPosition().x - first.getSize().x/2.0;
+    double firstMaxY = first.getPosition().y + first.getSize().y/2.0;
+    double firstMinY = first.getPosition().y - first.getSize().y/2.0;
+
+    double secondMaxX = second.getPosition().x + second.getSize().x/2.0;
+    double secondMinX = second.getPosition().x - second.getSize().x/2.0;
+    double secondMaxY = second.getPosition().y + second.getSize().y/2.0;
+    double secondMinY = second.getPosition().y - second.getSize().y/2.0;
+
+    if (firstMaxX < secondMinX ||
+        firstMaxY < secondMinY ||
+        firstMinX > secondMaxX ||
+        firstMinY > secondMaxY)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+
 }
 
 void Game::loop()
@@ -107,35 +141,44 @@ void Game::loop()
         {
             for(Invader inv: invaders)
             {
-                double invMaxX = inv.getRect().getPosition().x + inv.getRect().getSize().x/2.0;
-                double invMinX = inv.getRect().getPosition().x - inv.getRect().getSize().x/2.0;
-                double invMaxY = inv.getRect().getPosition().y + inv.getRect().getSize().y/2.0;
-                double invMinY = inv.getRect().getPosition().y - inv.getRect().getSize().y/2.0;
-
-                double maxX = player.getBull()->getRect().getPosition().x + player.getBull()->getRect().getSize().x/2.0;
-                double minX = player.getBull()->getRect().getPosition().x - player.getBull()->getRect().getSize().x/2.0;
-                double maxY = player.getBull()->getRect().getPosition().y + player.getBull()->getRect().getSize().y/2.0;
-                double minY = player.getBull()->getRect().getPosition().y - player.getBull()->getRect().getSize().y/2.0;
-
-                if ((maxX < invMinX ||
-                    maxY < invMinY ||
-                    minX > invMaxX ||
-                    minY > invMaxY))
-                    {
-                        ++i;
-                        continue;
-                    }
-                    else
-                    {
-                        del = true;
-                        break;
-                    }
+                if(!checkColl(inv.getRect(),player.getBull()->getRect()))
+                {
+                    ++i;
+                    continue;
+                }
+                else
+                {
+                    del = true;
+                    break;
+                }
             }
         }
+        bool playerHit = false;
+        for(Invader & inv: invaders)
+        {
+            if(inv.getBull()->getState())
+            {
+                if(checkColl(player.getRect(), inv.getBull()->getRect()))
+                {
+                    playerHit = true;
+                    App.close();
+                    break;
+                }
+            }
+        }
+
         if(del)
         {
             invaders.erase(invaders.begin()+i);
             player.getBull()->resetBull(player.getRect().getPosition());
+        }
+
+        for(Invader inv: invaders)
+        {
+            if(inv.getBull()->getState())
+            {
+                App.draw(inv.getBull()->getRect());
+            }
         }
 
         if(player.getBull()->getState())
