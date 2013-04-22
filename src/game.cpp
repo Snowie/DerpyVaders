@@ -1,5 +1,4 @@
 #include "../include/game.h"
-#include <iostream>
 Game::Game()
 {
     //ctor
@@ -104,7 +103,7 @@ void Game::loop()
         }
         unsigned int i = 0;
         bool del = false;
-        if(player.getBullState())
+        if(player.getBull()->getState())
         {
             for(Invader inv: invaders)
             {
@@ -113,10 +112,10 @@ void Game::loop()
                 double invMaxY = inv.getRect().getPosition().y + inv.getRect().getSize().y/2.0;
                 double invMinY = inv.getRect().getPosition().y - inv.getRect().getSize().y/2.0;
 
-                double maxX = player.getBull().getPosition().x + player.getBull().getSize().x/2.0;
-                double minX = player.getBull().getPosition().x - player.getBull().getSize().x/2.0;
-                double maxY = player.getBull().getPosition().y + player.getBull().getSize().y/2.0;
-                double minY = player.getBull().getPosition().y - player.getBull().getSize().y/2.0;
+                double maxX = player.getBull()->getRect().getPosition().x + player.getBull()->getRect().getSize().x/2.0;
+                double minX = player.getBull()->getRect().getPosition().x - player.getBull()->getRect().getSize().x/2.0;
+                double maxY = player.getBull()->getRect().getPosition().y + player.getBull()->getRect().getSize().y/2.0;
+                double minY = player.getBull()->getRect().getPosition().y - player.getBull()->getRect().getSize().y/2.0;
 
                 if ((maxX < invMinX ||
                     maxY < invMinY ||
@@ -136,12 +135,12 @@ void Game::loop()
         if(del)
         {
             invaders.erase(invaders.begin()+i);
-            player.eraseBull();
+            player.getBull()->resetBull(player.getRect().getPosition());
         }
 
-        if(player.getBullState())
+        if(player.getBull()->getState())
         {
-            App.draw(player.getBull());
+            App.draw(player.getBull()->getRect());
         }
         App.draw(player.getRect());
 

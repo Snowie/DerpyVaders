@@ -2,6 +2,7 @@
 #define PLAYER_H
 #include <SFML/Graphics.hpp>
 #include "vector.h"
+#include "bullet.h"
 
 class Player
 {
@@ -11,24 +12,18 @@ class Player
         void control();
         void update();
         sf::RectangleShape getRect() const;
-        sf::RectangleShape getBull() const;
-        void eraseBull();
+        Bullet * getBull();
 
-        bool getBullState() const;
     protected:
     private:
 
-        void bulletLogic();
+        Bullet bullet;
 
         sf::RectangleShape rectangle;
-        sf::RectangleShape bullet;
         Vector velocity;
         Vector acceleration;
 
-        bool bulletState;
-        double bull_x, bull_y;
         double x, y;
-        Vector bulletVelocity;
 };
 
 #endif // PLAYER_H
