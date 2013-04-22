@@ -2,6 +2,7 @@
 #define INVADER_H
 #include <SFML/Graphics.hpp>
 #include "vector.h"
+#include "bullet.h"
 
 class Invader
 {
@@ -14,10 +15,12 @@ class Invader
         double getY() const;
         Vector getVelocity() const;
         sf::RectangleShape getRect() const;
-        Vector setVelocity(Vector);
+        void setVelocity(Vector);
+        Bullet * getBull();
 
     protected:
     private:
+        Bullet bullet;
         sf::RectangleShape rectangle;
         double x, y;
         Vector velocity;
